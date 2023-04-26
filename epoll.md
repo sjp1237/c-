@@ -1,4 +1,30 @@
-epoll
+ epoll
+
+```c
+#include <sys / epoll.h>
+ 
+nfd = epoll_creat(max_size);
+//max_size参数将被忽略，但必须大于零
+
+```
+
+
+
+```c
+epoll_ctl 接口是用来 维护 epoll 对象中红黑树的节点，epoll_ctl可以在红黑树中添加，删除，修改节点。
+   int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
+
+```
+
+> **epfd：eppoll**对象的文件描述符
+> op:选择修改epoll中红黑树的方式，如下：
+>   EPOLL_CTL_ADD：往红黑树中插入节点
+>   EPOLL_CTL_MOD：修改红黑树中的节点的信息。
+>   EPOLL_CTL_DELL：删除红黑树中节点。
+>
+> 如果socket已经添加到epoll对象中，则不能再一次将socket添加到epoll对象，只能修改socket中的节点信息
+
+
 
 
 

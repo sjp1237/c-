@@ -1,6 +1,26 @@
-# QT
+# QT入门
 
 ## QT简介
+
+- 跨平台的c++应用程序框架
+  - 具有短平快的优秀特质，投资少，周期短，见效快，效益高。
+  - 几乎支持所有的平台，可用于桌面程序开发，以及嵌入式开发。
+  - 有属于自己的事件处理机制。
+
+- QT是标准的c++扩展，c++语法在QT中都是支持的。
+  - 良好封装机制使得QT模块化程度非常高，可重用性较好，可以快速上手。
+  - QT提供了一种称为signals/slots的安全类型来替代callback，这使得各个元件之间的协同工作变得十分简单
+
+- 广泛用于GUI程序，也可用于开发费GUI程序
+- 有丰富的API
+  - QT包括多达250个以上的c++类
+  - 可以处理正则表达式
+
+- 支持2D/3D图形渲染，支持OpenGL
+- QT给程序员提供了非常详细的官方文档
+- 支持XML，Json
+- 框架化模块化，使用者可以根据需求选择相应的模块来使用
+- 
 
 1.1跨平台图形界面引擎
 
@@ -12,6 +32,67 @@
 
 
 
+
+
+### QT的模块
+
+Qt类库里大量的类根据功能分为各种模块，这些模块又分为以下几大类:
+
+- Qt基本模块(.Qt Essentials):提供了Qt在所有平台上的基本功能。
+- Qt附加模块(Qt Add-Ons):实现一些特定功能的提供附加价值的模块。
+- 增值模块(Value-AddModules):单独发布的提供额外价值的模块或工具。
+- 技术预览模块（Technology Preview Modules):一些处于开发阶段，但是可以作为技术预览使用的模块。
+
+- Qt工具(Qt Tools):帮助应用程序开发的一些工具。
+
+![image-20230421205908836](C:\Users\A\AppData\Roaming\Typora\typora-user-images\image-20230421205908836.png)
+
+
+
+### 环境变量设置
+
+qt安装完成后，需要将bin库路径设置到window下的环境变量中，目的是让可执行程序无论在哪个目录下都可以找到动态库
+
+或者任意目录下可以对项目进行编译。	
+
+步骤：
+
+找到qt的安装目录
+
+C:\Qt\Qt5.12.0\5.12.0\mingw73_64\bin   这个存储的qt提供给我们的动态库
+
+C:\Qt\Qt5.12.0\Tools\mingw730_64\bin  这个路径是存储编译器的路径
+
+我的电脑->属性->高级系统设置->环境变量->PATH->将上面两个bin路径设置到里面
+
+
+
+### QTCreate
+
+1.Qtcreator是编写Qt程序默认使用的一款 IDE，使用VS写Qt程序也是可以的，在此不做介绍。2、使用QtCreator创建的项目目录中不能包含中文
+1.Qt创建者是编写Qt程序默认使用的一款IDE，使用与写QT程序也是可以的，在此不做介绍。2、使用QtCreator创建的项目目录中不能包含中文
+
+3. QtCreator默认使用Utf8格式编码对文件字符进行编码
+3.QtCreator默认使用UTF 8格式编码对文件字符进行编码
+
+。字符必须编码后才能被计算机处理
+..字符必须编码后才能被计算机处理
+
+。为了处理汉字，程序员设计了用于简体中文的GB2312和用于繁体中文的big5。。GB2312支持的汉字太少，1995年的汉字扩展规范GBK1.0，支持了更多的汉字。o 2000年的GB18030取代了GBK1.0成为了正式的国家标准。
+..为了处理汉字，程序员设计了用于简体中文的GB 2312和用于繁体中文的big5.GB 2312支持的汉字太少，1995年的汉字扩展规范GBK1.0，支持了更多的汉字.O 2000年的GB 18030取代了GBK1.0成为了正式的国家标准.
+
+o Unicode 也是一种字符编码方法，不过它是由国际组织设计，可以容纳全世界所有语言文字的编码方案
+O Unicode也是一种字符编码方法，不过它是由国际组织设计，可以容纳全世界所有语言文字的编码方案
+
+utf8
+UTF8
+
+utf16
+Utf 16
+
+ovs写Ot程序默认使用的本地编码->gbk。修改QtCreator的编码
+OVS写OT程序默认使用的本地编码->GBK.修改QtCreator的编码
+
 ## 创建第一个qt项目
 
 点击创建项目后，选择项目路径以及给项目起名称
@@ -20,6 +101,97 @@
 - 创建的项目中不能有中文路径
 
 默认创建有窗口类，QWidget，QMainWindow,QDialog
+
+
+
+![image-20230421214651332](C:\Users\A\AppData\Roaming\Typora\typora-user-images\image-20230421214651332.png)
+
+
+
+```c++
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>		// Qt标准窗口类头文件
+
+QT_BEGIN_NAMESPACE
+// mainwindow.ui 文件中也有一个类叫 MainWindow, 将这个类放到命名空间 Ui 中
+namespace Ui { 
+    class MainWindow;
+}	
+
+QT_END_NAMESPACE
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT	// 这个宏是为了能够使用Qt中的信号槽机制
+
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+    
+private:
+    Ui::MainWindow *ui;		// 定义指针指向窗口的 UI 对象
+};
+#endif // MAINWINDOW_H
+
+```
+
+### 新建工程
+
+Qt->Qt创建界面类  会多一个ui文件
+
+### QWidget
+
+<img src="C:\Users\A\AppData\Roaming\Typora\typora-user-images\image-20230422193726485.png" alt="image-20230422193726485" style="zoom:67%;" />
+
+```
+如果给创建一个窗口对象指定了父对象，那么这个窗口就不是一个独立窗口，这个对象就不用show
+如果窗口对象没有指定父对象，则为一个独立的窗口，要显示这个窗口就必须要进行show操作。
+
+```
+
+
+
+## QDialog
+
+- 对话框类
+- 不能内嵌到其他窗口中
+- 对话窗口不管是指定 或者 指定 父对象，都不会内嵌到主窗口中。
+
+##### 非模态显示
+
+```
+//非模态 不会阻塞程序，可以随意切换窗口
+dlg->show()；
+//模态， 会阻塞程序， 不可以随意切换窗口
+dlg->exec();模态窗口
+```
+
+### QMainWindow
+
+- 有工具栏，状态栏，菜单栏，后边的章节会具体介绍这个窗口
+- 不能内嵌到其他窗口中
+
+菜单栏，和状态栏只能有一个，工具栏可以有多个
+
+
+
+
+
+### QT的坐标体系
+
+
+
+
+
+
+
+### QT的内存回收机制
+
+
+
+
 
 main函数
 
