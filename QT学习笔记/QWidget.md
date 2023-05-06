@@ -68,3 +68,60 @@ void Widget::on_pushButton_3_clicked()
 }
 ```
 
+
+
+### 基于窗口的菜单栏策略实现
+
+```c++
+这种方式是使用 Qt 中 QWidget 类中的右键菜单函数  
+setContextMenuPolicy(Qt::CustomContextMenu);
+  - Qt::NoContextMenu	     --> 不能实现右键菜单
+  - Qt::PreventContextMenu   --> 不能实现右键菜单
+  - Qt::DefaultContextMenu   --> 基于事件处理器函数 QWidget::contextMenuEvent() 实现
+  - Qt::ActionsContextMenu   --> 添加到当前窗口中所有 QAction 都会作为右键菜单项显示出来
+  - Qt::CustomContextMenu    --> 基于 QWidget::customContextMenuRequested() 信号实现
+```
+
+```c++
+#include<QMenu>
+#include<QDebug>
+Widget::Widget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::Widget)
+{
+    ui->setupUi(this);
+   // 当在窗口中点击鼠标右键, 窗口会发出一个信号: QWidget::customContextMenuRequested()
+   // 对应发射出的这个信号, 需要添加一个槽函数, 用来显示右键菜单
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this,&QWidget::customContextMenuRequested,this,[=](const QPoint point){
+        qDebug()<<"右键";
+        QMenu* mu=new QMenu(this);
+        mu->addAction("c++");
+        mu->addAction("c");
+        mu->addAction("java");
+        mu->addAction("python");
+        mu->exec(QCursor::pos());
+    });
+}
+```
+
+
+
+### 实现右键菜单栏
+
+## 菜单项
+
+```c++
+QMenu(QWidget *parent = nullptr);
+//添加菜单项
+QAction *addAction(const QString &text);
+QAction *addAction(const QIcon &icon, const QString &text);
+//相对于屏幕的坐标显示菜单
+exec(QCursor::pos());
+```
+
+
+
+
+
+基于鼠标事件实现和基于窗口的菜单策略实现

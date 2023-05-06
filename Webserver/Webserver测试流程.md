@@ -1,5 +1,9 @@
 ## Webserver测试流程
 
+打 " √ " ,则说明该过程没问题，测试环境是用fiddler给我们的服务器发送数据包：
+
+![image-20230504202400888](C:\Users\A\AppData\Roaming\Typora\typora-user-images\image-20230504202400888.png) 
+
 测试用例：
 
 请求服务器的主页的的主页
@@ -26,7 +30,7 @@ Content-Length: 0
 
 
 
-## 测试Run函数
+## 测试服务器流程
 
 ##### 产生SIFALRM信号后测试流程
 
@@ -43,33 +47,23 @@ Content-Length: 0
 
 #### 获取新链接
 
-listenfd是否触发读事件。
+listenfd是否触发读事件。   √
 
-进入listenfd将新链接获取上来，并将设定对应的
+进入listenfd将新链接获取上来，并将设定对应的  √
 
-请求后，线程处理process后的response_body结果
+请求后，线程处理process后的response_body结果 √
 
-生成response_body后，能否触发EPOLLOUT
+生成response_body后，能否触发EPOLLOUT  √
 
-测试DealWrite能否正确的将数据发送给客服端.
-
-发送数据成功后，
-
-- 
-
-
-
-
-
-读取完http请求
+测试DealWrite能否正确的将数据发送给客服端.  √
 
 线程池中的线程是否被唤醒，获取到任务     √
 
 获取任务后执行 httpconn 中的 process 生成一个httpconn的报文。√
 
-生成httpconn报文后能否触发socket的写事件   
+生成httpconn报文后能否触发socket的写事件   √
 
-触发写事件后调用write函数能否将数据发送给客户端
+触发写事件后调用write函数能否将数据发送给客户端 √
 
 
 
@@ -122,8 +116,19 @@ listenfd是否触发读事件。
 
 基本原理: Webbench首先 fork出多个子进程，每个子进程都循环做web访问测试。子进程把访问的结果通过pipe告诉父进程，父进程做最终的统计结果。
 
-
-
 测试示例：
 
-webbench -c 1000 -t 
+```c++
+./webbench -c 1000 -t 5 http://119.23.41.13:8081/webbench -c 1000 -t 5
+```
+
+测试结果：
+
+![image-20230504201840292](C:\Users\A\AppData\Roaming\Typora\typora-user-images\image-20230504201840292.png)
+
+
+
+创建1000个客户端，跑5秒钟的结果：
+
+最终结果是，服务器的速度是7704个字节。
+

@@ -15,11 +15,8 @@ QTimer::QTimer(QObject *parent = nullptr)
 // 停止定时器。
 [slot] void QTimer::stop();
 
-
 // 如果定时器正在运行，返回true; 否则返回false。
 bool QTimer::isActive() const;
-
-
 ```
 
 ## signals
